@@ -1,0 +1,78 @@
+<template>
+  <div>
+    <h2 class="section-title">Recent Winners</h2>
+    <div class="winners-container">
+      <div v-for="winner in winners" :key="winner.id" class="winner-card winner-notification">
+        <div class="winner-avatar">
+          <img :src="winner.avatar" alt="Winner Avatar">
+        </div>
+        <div class="winner-info">
+          <p><strong>{{ winner.name }}</strong></p>
+          <p>Won {{ winner.prize }}</p>
+        </div>
+        <span class="winner-time">{{ winner.time }}</span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'WinnersSection',
+  data() {
+    return {
+      winners: [
+        {
+          id: 1,
+          name: "John D.",
+          prize: "Movie Tickets",
+          time: "2m ago",
+          avatar: "https://picsum.photos/51"
+        },
+        {
+          id: 2,
+          name: "Sarah M.",
+          prize: "$50 Voucher",
+          time: "5m ago",
+          avatar: "https://picsum.photos/52"
+        }
+      ]
+    }
+  },
+  methods: {
+    simulateNewWinner() {
+      const newWinners = [
+        { name: "Alex K.", prize: "iPhone 13", time: "Just now" },
+        { name: "Maria S.", prize: "$100 Amazon Card", time: "Just now" },
+        { name: "Chris L.", prize: "Smartwatch", time: "1m ago" },
+        { name: "Emily W.", prize: "Wireless Earbuds", time: "6m ago" },
+        { name: "Mike P.", prize: "Movie Tickets", time: "4m ago" },
+        { name: "Linda R.", prize: "$50 Food Voucher", time: "8m ago" },
+        { name: "Tom H.", prize: "Gaming Keyboard", time: "7m ago" },
+        { name: "Sophie B.", prize: "Bluetooth Speaker", time: "2m ago" },
+        { name: "Jack M.", prize: "Smartphone", time: "3m ago" },
+        { name: "Eva S.", prize: "Wireless Mouse", time: "2m ago" },
+        { name: "Oliver L.", prize: "Movie Tickets", time: "3m ago" }
+        // ... more winners
+      ]
+      const randomWinner = newWinners[Math.floor(Math.random() * newWinners.length)]
+      const ranNum = Math.floor(Math.random() * 40) + 60
+      
+      this.winners.unshift({
+        id: Date.now(),
+        name: randomWinner.name,
+        prize: randomWinner.prize,
+        time: randomWinner.time,
+        avatar: `https://picsum.photos/${ranNum}`
+      })
+
+      if (this.winners.length > 5) {
+        this.winners.pop()
+      }
+    }
+  },
+  mounted() {
+    setInterval(this.simulateNewWinner, 5000)
+  }
+}
+</script>
