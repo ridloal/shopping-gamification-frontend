@@ -1,9 +1,9 @@
 <template>
     <header>
-        <div class="logo">
-        <i class="fas fa-gift"></i>
-        <span>PrizeClaim</span>
-        </div>
+        <a href="#" class="logo" @click="$router.push('/')" style="text-decoration: none;">
+            <i class="fas fa-gift"></i>
+            <span>PrizeClaim</span>
+        </a>
         <div class="header-right">
         <i class="fas fa-bell"></i>
         <div class="profile-menu">
@@ -11,8 +11,8 @@
             <img :src="avatarUrl" alt="User Avatar">
             </div>
             <div class="menu-dropdown" :class="{ active: isMenuOpen }">
-            <a href="#"><i class="fas fa-user-plus"></i> Register</a>
-            <a href="#"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="#" @click="$router.push('/register')"><i class="fas fa-user-plus"></i> Register</a>
+            <a href="#" @click="$router.push('/login')"><i class="fas fa-sign-in-alt"></i> Login</a>
             </div>
         </div>
         </div>

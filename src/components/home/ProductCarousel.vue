@@ -20,6 +20,12 @@
           </div>
           <div class="product-info">
             <h3>{{ product.name }}</h3>
+            <div class="product-prices">
+              <span class="original-price" v-if="product.originalPrice">{{ formatCurrency(product.originalPrice) }}</span>
+              <br>
+              <span class="current-price">{{ formatCurrency(product.currentPrice) }}</span>
+              <span class="sale-label" v-if="product.originalPrice">Sale</span>
+            </div>
             <div class="product-stats">
               <span><i class="fas fa-star"></i> {{ product.rating }}</span>
               <span><i class="fas fa-shopping-cart"></i> {{ product.sold }}</span>
@@ -51,7 +57,9 @@
             image: "https://picsum.photos/250/150",
             rating: 4.8,
             sold: 1234,
-            reviews: 856
+            reviews: 856,
+            currentPrice: 10000,
+            originalPrice: 87000
           },
           {
             id: 2,
@@ -59,7 +67,9 @@
             image: "https://picsum.photos/250/151",
             rating: 4.5,
             sold: 987,
-            reviews: 654
+            reviews: 654,
+            currentPrice: 5000,
+            originalPrice: 7500
           },
           {
             id: 3,
@@ -67,7 +77,9 @@
             image: "https://picsum.photos/250/152",
             rating: 4.9,
             sold: 567,
-            reviews: 432
+            reviews: 432,
+            currentPrice: 15000,
+            originalPrice: 20000
           },
           {
             id: 4,
@@ -75,7 +87,9 @@
             image: "https://picsum.photos/250/153",
             rating: 4.7,
             sold: 345,
-            reviews: 210
+            reviews: 210,
+            currentPrice: 8000,
+            originalPrice: 10000
           },
           {
             id: 5,
@@ -83,7 +97,9 @@
             image: "https://picsum.photos/250/154",
             rating: 4.6,
             sold: 123,
-            reviews: 98
+            reviews: 98,
+            currentPrice: 6000,
+            originalPrice: 9000
           }
         ],
         atStart: true,
@@ -92,6 +108,9 @@
       }
     },
     methods: {
+      formatCurrency(value) {
+        return value.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
+      },
       scrollLeft() {
         if (this.$refs.carousel) {
           this.$refs.carousel.scrollBy({
@@ -177,6 +196,35 @@
   
   .product-info {
     padding: 1rem;
+  }
+
+  .product-prices {
+    display: block;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .current-price {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #10b981;
+  }
+
+  .original-price {
+    font-size: 0.8rem;
+    text-decoration: line-through;
+    color: #6b7280;
+  }
+
+  .sale-label {
+    background: #f87171;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.6rem;
+    font-weight: bold;
+    margin-left: 10px;
   }
   
   .product-stats {

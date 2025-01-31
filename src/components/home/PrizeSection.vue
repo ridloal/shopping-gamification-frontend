@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <button class="claim-btn submit-btn animate-pulse" @click="claimPrize">
+    <button class="claim-btn submit-btn animate-pulse" @click="$router.push('/PrizeClaim')" >
       Claim Your Prize
     </button>
   </div>

@@ -5,7 +5,7 @@
       <div class="claim-input">
         <div class="input-group">
           <input type="text" :placeholder="placeholder" v-model="claimCode">
-          <button class="submit-btn" @click="submitClaim">
+          <button class="submit-btn" @click="$router.push('/PrizeReward')">
             <i class="fas fa-chevron-right"></i>
           </button>
         </div>

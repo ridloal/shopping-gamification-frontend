@@ -3,6 +3,8 @@
       <HeroSection />
       <h2 class="section-title">Top Products</h2>
       <ProductCarousel />
+      <h2 class="section-title">Digital Products</h2>
+      <ProductCarousel />
       <BannerSection />
       <PrizeSection />
       <WinnersSection />
