@@ -5,7 +5,7 @@
           {{ link.text }}
         </a>
       </div>
-      <p>&copy; {{ currentYear }} PrizeClaim. All rights reserved.</p>
+      <p>&copy; {{ currentYear }} HartaKarun. All rights reserved.</p>
     </footer>
   </template>
   

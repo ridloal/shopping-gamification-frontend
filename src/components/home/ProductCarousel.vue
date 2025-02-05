@@ -16,20 +16,20 @@
              @click="handleProductClick(product)"
         >
           <div class="product-image">
-            <img :src="product.image" :alt="product.name">
+            <img :src="product.image_url" :alt="product.name">
           </div>
           <div class="product-info">
             <h3>{{ product.name }}</h3>
             <div class="product-prices">
-              <span class="original-price" v-if="product.originalPrice">{{ formatCurrency(product.originalPrice) }}</span>
+              <span class="original-price" v-if="product.original_price">{{ formatCurrency(product.original_price) }}</span>
               <br>
-              <span class="current-price">{{ formatCurrency(product.currentPrice) }}</span>
-              <span class="sale-label" v-if="product.originalPrice">Sale</span>
+              <span class="current-price">{{ formatCurrency(product.price) }}</span>
+              <span class="sale-label" v-if="product.original_price">Sale</span>
             </div>
             <div class="product-stats">
-              <span><i class="fas fa-star"></i> {{ product.rating }}</span>
-              <span><i class="fas fa-shopping-cart"></i> {{ product.sold }}</span>
-              <span><i class="fas fa-comments"></i> {{ product.reviews }}</span>
+              <span><i class="fas fa-star"></i> {{ product.stars }}</span>
+              <span><i class="fas fa-shopping-cart"></i> {{ product.sold }}+</span>
+              <span><i class="fas fa-comments"></i> {{ product.review }}</span>
             </div>
           </div>
         </div>
@@ -48,60 +48,14 @@
   <script>
   export default {
     name: 'ProductCarousel',
+    props: {
+      products: {
+        type: Array,
+        required: true
+      }
+    },
     data() {
       return {
-        products: [
-          {
-            id: 1,
-            name: "Premium Headphones",
-            image: "https://picsum.photos/250/150",
-            rating: 4.8,
-            sold: 1234,
-            reviews: 856,
-            currentPrice: 10000,
-            originalPrice: 87000
-          },
-          {
-            id: 2,
-            name: "Wireless Mouse",
-            image: "https://picsum.photos/250/151",
-            rating: 4.5,
-            sold: 987,
-            reviews: 654,
-            currentPrice: 5000,
-            originalPrice: 7500
-          },
-          {
-            id: 3,
-            name: "Mechanical Keyboard",
-            image: "https://picsum.photos/250/152",
-            rating: 4.9,
-            sold: 567,
-            reviews: 432,
-            currentPrice: 15000,
-            originalPrice: 20000
-          },
-          {
-            id: 4,
-            name: "Gaming Monitor",
-            image: "https://picsum.photos/250/153",
-            rating: 4.7,
-            sold: 345,
-            reviews: 210,
-            currentPrice: 8000,
-            originalPrice: 10000
-          },
-          {
-            id: 5,
-            name: "Smartwatch",
-            image: "https://picsum.photos/250/154",
-            rating: 4.6,
-            sold: 123,
-            reviews: 98,
-            currentPrice: 6000,
-            originalPrice: 9000
-          }
-        ],
         atStart: true,
         atEnd: false,
         scrollAmount: 300

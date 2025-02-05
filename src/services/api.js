@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_BASE_URL = 'https://shopping-api.ridlo.eu.org'
+const API_BASE_URL = 'https://gif-chronicles-brings-shock.trycloudflare.com'
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -40,5 +40,11 @@ export const claimService = {
   // Update prize for claim
   updatePrize(claimId, prizeId) {
     return apiClient.patch(`/claims/${claimId}/prizes/${prizeId}`)
+  }
+}
+
+export const homeService = {
+  getHomePageData() {
+    return apiClient.get('/page/home')
   }
 }

@@ -27,14 +27,14 @@ export default {
           name: "John D.",
           prize: "Movie Tickets",
           time: "2m ago",
-          avatar: "https://picsum.photos/51"
+          avatar: "https://storage.ridlo.eu.org/img/67a31b4c4e746_1738742604.webp"
         },
         {
           id: 2,
           name: "Sarah M.",
           prize: "$50 Voucher",
           time: "5m ago",
-          avatar: "https://picsum.photos/52"
+          avatar: "https://storage.ridlo.eu.org/img/67a31b4c4e746_1738742604.webp"
         }
       ]
     }
@@ -56,14 +56,13 @@ export default {
         // ... more winners
       ]
       const randomWinner = newWinners[Math.floor(Math.random() * newWinners.length)]
-      const ranNum = Math.floor(Math.random() * 40) + 60
       
       this.winners.unshift({
         id: Date.now(),
         name: randomWinner.name,
         prize: randomWinner.prize,
         time: randomWinner.time,
-        avatar: `https://picsum.photos/${ranNum}`
+        avatar: `https://storage.ridlo.eu.org/img/67a31b4c4e746_1738742604.webp`
       })
 
       if (this.winners.length > 5) {

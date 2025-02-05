@@ -5,18 +5,18 @@
       <div class="carousel" ref="prizeCarousel">
         <!-- Original prizes -->
         <div v-for="prize in prizes" :key="`original-${prize.id}`" class="prize-card">
-          <div class="prize-icon">
-            <i :class="prize.icon"></i>
+          <div class="prize-image">
+            <img :src="prize.image_url" alt="{{ prize.name }}">
           </div>
-          <h3>{{ prize.title }}</h3>
+          <h3>{{ prize.name }}</h3>
           <p>{{ prize.description }}</p>
         </div>
         <!-- Cloned prizes for infinite scroll -->
         <div v-for="prize in prizes" :key="`clone-${prize.id}`" class="prize-card">
-          <div class="prize-icon">
-            <i :class="prize.icon"></i>
+          <div class="prize-image">
+            <img :src="prize.image_url" alt="{{ prize.name }}">
           </div>
-          <h3>{{ prize.title }}</h3>
+          <h3>{{ prize.name }}</h3>
           <p>{{ prize.description }}</p>
         </div>
       </div>
@@ -30,46 +30,14 @@
 <script>
 export default {
   name: 'PrizeSection',
+  props: {
+    prizes: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
-      prizes: [
-        {
-          id: 1,
-          title: 'Movie Tickets',
-          description: 'Win 2 free tickets',
-          icon: 'fas fa-ticket-alt'
-        },
-        {
-          id: 2,
-          title: 'Food Voucher',
-          description: '$50 value',
-          icon: 'fas fa-utensils'
-        },
-        {
-          id: 3,
-          title: 'Shopping Card',
-          description: '$100 value',
-          icon: 'fas fa-shopping-bag'
-        },
-        {
-          id: 4,
-          title: 'Travel Voucher',
-          description: '$200 value',
-          icon: 'fas fa-plane'
-        },
-        {
-          id: 5,
-          title: 'Tech Gadgets',
-          description: 'Win the latest gadgets',
-          icon: 'fas fa-laptop'
-        },
-        {
-          id: 6,
-          title: 'Cash Prize',
-          description: '$500 cash',
-          icon: 'fas fa-money-bill-wave'
-        }
-      ],
       scrollInterval: null,
       scrollStep: 1,
     }
@@ -149,21 +117,19 @@ export default {
   box-shadow: 0 8px 16px rgba(79, 70, 229, 0.15);
 }
 
-.prize-icon {
-  width: 3rem;
-  height: 3rem;
-  background: #e0e7ff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.prize-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 0.5rem;
+  object-fit: cover;
   margin: 0 auto 0.5rem;
-  color: #4f46e5;
   transition: transform 0.3s;
+  max-width: 100%;
+  max-height: 100%;
 }
 
-.prize-card:hover .prize-icon {
-  transform: rotate(360deg);
+.prize-image img{
+  width: 100%;
 }
 
 .claim-btn {

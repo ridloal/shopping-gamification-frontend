@@ -2,7 +2,7 @@
     <header>
         <a href="#" class="logo" @click="$router.push('/')" style="text-decoration: none;">
             <i class="fas fa-gift"></i>
-            <span>PrizeClaim</span>
+            <span>HartaKarun</span>
         </a>
         <div class="header-right">
         <i class="fas fa-bell"></i>
