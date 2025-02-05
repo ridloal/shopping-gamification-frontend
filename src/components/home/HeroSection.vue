@@ -6,7 +6,7 @@
         <div class="input-group">
           <input type="text" :placeholder="placeholder" v-model="claimCode">
           <button class="submit-btn" @click="$router.push('/PrizeReward')">
-            <i class="fas fa-chevron-right"></i>
+            <i class="fas fa-chevron-right"></i> Check Status
           </button>
         </div>
       </div>
@@ -20,7 +20,7 @@
       return {
         title: 'Win Amazing Prizes',
         subtitle: 'Claim your rewards instantly and spin to win more!',
-        placeholder: 'Enter claim code',
+        placeholder: 'Enter your claim code',
         claimCode: ''
       }
     },

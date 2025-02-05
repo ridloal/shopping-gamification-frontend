@@ -15,7 +15,7 @@ const routes = [
     component: PrizeClaimView
   },
   {
-    path: '/PrizeReward',
+    path: '/PrizeReward/:claim_code',
     name: 'PrizeReward',
     component: PrizeRewardView
   },
