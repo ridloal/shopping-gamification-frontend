@@ -14,7 +14,9 @@
               type="text" 
               v-model="productSearch"
               placeholder="Search products..."
+              @blur="validateProduct"
             >
+            <span v-if="errors.product" class="error">{{ errors.product }}</span>
           </div>
           <div class="product-grid">
             <div 
@@ -38,12 +40,13 @@
               :key="platform.id"
               class="platform-option"
               :class="{ selected: selectedPlatform?.id === platform.id }"
-              @click="selectedPlatform = platform"
+              @click="selectPlatform(platform)"
             >
               <i :class="platform.icon"></i>
               {{ platform.name }}
             </div>
           </div>
+          <span v-if="errors.platform" class="error">{{ errors.platform }}</span>
         </div>
 
         <div class="form-section">
@@ -53,7 +56,9 @@
               :type="field.type"
               v-model="formData[field.id]"
               :placeholder="field.placeholder"
+              @blur="validateField(field.id)"
             >
+            <span v-if="errors[field.id]" class="error">{{ errors[field.id] }}</span>
           </div>
         </div>
 
@@ -103,6 +108,7 @@ const selectedPlatform = ref(null)
 const isLoading = ref(false)
 const isSubmitted = ref(false)
 const errorMessage = ref(null)
+const errors = ref({})
 const router = useRouter()
 
 const formData = ref({
@@ -144,38 +150,81 @@ const filteredProducts = computed(() => {
 
 const selectProduct = (product) => {
   selectedProduct.value = product
+  errors.value.product = null
+}
+
+const selectPlatform = (platform) => {
+  selectedPlatform.value = platform
+  errors.value.platform = null
+}
+
+const validateProduct = () => {
+  if (!selectedProduct.value) {
+    errors.value.product = 'Product is required'
+  } else {
+    errors.value.product = null
+  }
+}
+
+const validatePlatform = () => {
+  if (!selectedPlatform.value) {
+    errors.value.platform = 'Platform is required'
+  } else {
+    errors.value.platform = null
+  }
+}
+
+const validateField = (fieldId) => {
+  if (!formData.value[fieldId]) {
+    errors.value[fieldId] = `${fieldId.charAt(0).toUpperCase() + fieldId.slice(1)} is required`
+  } else {
+    errors.value[fieldId] = null
+  }
 }
 
 const handleSubmit = async () => {
-  isLoading.value = true
-  errorMessage.value = null
+  errors.value = {}
 
-  const claimData = {
-    product_id: selectedProduct.value.id,
-    social_media_username: formData.value.username,
-    social_media_platform: selectedPlatform.value.id,
-    post_url: '',
-    email: formData.value.email,
-    nomor_whatsapp: formData.value.whatsapp,
-    is_liked: formData.value.confirmations.liked,
-    is_comment: formData.value.confirmations.commented,
-    is_shared: formData.value.confirmations.shared,
-    is_follow: formData.value.confirmations.following
-  }
+  validateProduct()
+  validatePlatform()
+  socialFields.forEach(field => validateField(field.id))
 
-  try {
-    const response = await claimService.createClaim(claimData)
-    isSubmitted.value = true
-    router.push(`/PrizeReward/${response.data.claim_code}`)
-  } catch (error) {
-    console.error('Error creating claim:', error)
-    if (error.response && error.response.status === 400) {
-      errorMessage.value = error.response.data.details.NomorWhatsapp
-    } else {
-      errorMessage.value = 'An error occurred while submitting the claim.'
+  if (Object.keys(errors.value).every(key => errors.value[key] === null)) {
+    isLoading.value = true
+    errorMessage.value = null
+
+    const claimData = {
+      product_id: selectedProduct.value.id,
+      social_media_username: formData.value.username,
+      social_media_platform: selectedPlatform.value.id,
+      post_url: '',
+      email: formData.value.email,
+      nomor_whatsapp: formData.value.whatsapp,
+      is_liked: formData.value.confirmations.liked,
+      is_comment: formData.value.confirmations.commented,
+      is_shared: formData.value.confirmations.shared,
+      is_follow: formData.value.confirmations.following
     }
-  } finally {
-    isLoading.value = false
+
+    console.log('Claim Data:', claimData) // Log claim data
+
+    try {
+      const response = await claimService.createClaim(claimData)
+      console.log('API Response:', response) // Log API response
+      isSubmitted.value = true
+      router.push(`/PrizeReward/${response.data.claim_code}`)
+    } catch (error) {
+      console.error('Error creating claim:', error)
+      if (error.response && error.response.status === 400) {
+        errorMessage.value = error.response.data.details.NomorWhatsapp
+      } else {
+        errorMessage.value = 'An error occurred while submitting the claim.'
+      }
+    } finally {
+      isLoading.value = false
+    }
+  } else {
+    console.log('Form validation failed') // Log validation failure
   }
 }
 </script>
@@ -355,6 +404,12 @@ const handleSubmit = async () => {
 .error-message {
   color: red;
   margin-top: 1rem;
+}
+
+.error {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 }
 
 .fade-enter-active, .fade-leave-active {
