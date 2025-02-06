@@ -5,30 +5,83 @@
         <i class="fas fa-gift"></i>
         <h1>Claim Status</h1>
     </div>
-    <span class="status-badge" :class="{ 'verified': isVerified }">
-        {{ isVerified ? 'Verified' : 'Pending' }}
+    <span class="status-badge" :class="{ verified: isVerified || isClaimed }">
+        {{ claim.verification_status.charAt(0).toUpperCase() + claim.verification_status.slice(1) }}
     </span>
     </div>
 
     <div class="status-info">
-    <p class="claim-details">Claim ID: {{ claimId }}</p>
-    <p class="claim-details">Submitted: {{ submissionDate }}</p>
-    <p class="claim-details">Email: email@email.com</p>
+        <div class="claim-details-table" style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div class="claim-details-row" style="display: flex; justify-content: space-between;">
+            <span class="claim-details-title">Claim Code:</span>
+            <span class="claim-details-value">{{ claim.claim_code }}</span>
+            </div>
+            <div class="claim-details-row" style="display: flex; justify-content: space-between;">
+            <span class="claim-details-title">Submitted:</span>
+            <span class="claim-details-value">{{ new Date(claim.created_at).toLocaleString() }}</span>
+            </div>
+            <div class="claim-details-row" style="display: flex; justify-content: space-between;">
+            <span class="claim-details-title">Email:</span>
+            <span class="claim-details-value">{{ claim.email }}</span>
+            </div>
+            <div class="claim-details-row" style="display: flex; justify-content: space-between;">
+            <span class="claim-details-title">Platform:</span>
+            <span class="claim-details-value" v-if="claim.social_media_platform === 'tiktok'"><span class="fab fa-tiktok"></span> Tiktok</span>
+            <span class="claim-details-value" v-if="claim.social_media_platform === 'instagram'"><span class="fab fa-instagram"></span> Instagram</span>
+            </div>
+            <div class="claim-details-row" style="display: flex; justify-content: space-between;">
+            <span class="claim-details-title">Username:</span>
+            <span class="claim-details-value">@{{ claim.social_media_username }}</span>
+            </div>
+            <div class="claim-details-row" style="display: flex; justify-content: space-between;">
+            <span class="claim-details-title">Nomor WhatsApp:</span>
+            <span class="claim-details-value">{{ claim.nomor_whatsapp }}</span>
+            </div>
+        </div>
+
+        <hr style="margin-top: 1rem;">
+        <h4 style="text-align: center;">Verification Details</h4>
+        <hr style="margin-bottom: 1rem;">
+
+        <div class="verification-details">
+            <div class="verification-details" style="display: flex; justify-content: space-between; text-align: center;">
+                <div class="verification-column" style="flex: 1; padding-right: 1rem;">
+                    <p class="claim-details">Liked 
+                        <i v-if="claim.is_liked" class="fas fa-check" style="color: green;"></i>
+                        <i v-else class="fas fa-x" style="color: red;"></i>
+                    </p>
+                    <p class="claim-details">Commented 
+                        <i v-if="claim.is_comment" class="fas fa-check" style="color: green;"></i>
+                        <i v-else class="fas fa-x" style="color: red;"></i>
+                    </p>
+                </div>
+                <div class="verification-column" style="flex: 1; padding-left: 1rem;">
+                    <p class="claim-details">Shared 
+                        <i v-if="claim.is_shared" class="fas fa-check" style="color: green;"></i>
+                        <i v-else class="fas fa-x" style="color: red;"></i>
+                    </p>
+                    <p class="claim-details">Follow 
+                        <i v-if="claim.is_follow" class="fas fa-check" style="color: green;"></i>
+                        <i v-else class="fas fa-x" style="color: red;"></i>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <PrizeWheel 
-    :isVerified="isVerified"
-    @wheel-spin="handleWheelSpin"
-    />
+    <PrizeWheel :isVerified="isVerified" :isClaimed="isClaimed" :prizes="prizes" @wheel-spin="handleWheelSpin" />
 
     <div class="verification-status" v-if="!isVerified">
-    <i class="fas fa-circle-notch fa-spin"></i>
-    <span>Verification in Progress</span>
+        <i class="fas fa-circle-notch fa-spin"></i>
+        <span>Verification in Progress</span>
     </div>
 
-    <p>We'll notify you once your claim is verified.<br>Choose your preferred notification method:</p>
+    <p class="claim-details" v-if="!isVerified">Please note your Claim Code <strong>{{ claimId }}</strong> and check back later. usually it takes 10-60 minutes to verify your claim request.</p>
+    <p v-if="!isVerified">We'll notify you once your claim is verified.<br>Choose your preferred notification method:</p>
 
-    <NotificationButtons @notification-set="handleNotificationSet" />
+    <p class="claim-details" v-if="isVerified">Silakan klik Spin Wheel untuk mendapatkan hadiah!</p>
+
+    <NotificationButtons @notification-set="handleNotificationSet" v-if="!isVerified" />
 </div>
 </template>
 
@@ -37,34 +90,45 @@ import PrizeWheel from './PrizeWheel.vue'
 import NotificationButtons from './NotificationButtons.vue'
 
 export default {
-name: 'StatusCard',
-components: {
+  name: 'StatusCard',
+  components: {
     PrizeWheel,
     NotificationButtons
-},
-data() {
+  },
+  props: {
+    claim: {
+      type: Object,
+      required: true
+    },
+    prizes: {
+      type: Array,
+      required: true
+    },
+  },
+  data() {
     return {
-    isVerified: false,
-    claimId: '4PC238847',
-    submissionDate: 'March 15, 2025'
+      isVerified: this.claim.verification_status === 'verified' || this.claim.verification_status === 'claimed',
+      isClaimed: this.claim.verification_status === 'claimed',
+      claimId: this.claim.claim_code,
+      submissionDate: new Date(this.claim.created_at).toLocaleDateString()
     }
-},
-methods: {
+  },
+  methods: {
     handleWheelSpin(prize) {
-    console.log('Prize won:', prize)
-    // Handle prize winning logic
+      console.log('Prize won:', prize)
+      // Handle prize winning logic
     },
     handleNotificationSet(type) {
-    console.log('Notification set:', type)
-    // Handle notification preference
+      console.log('Notification set:', type)
+      // Handle notification preference
     }
-},
-mounted() {
+  },
+  mounted() {
     // Simulate verification after 5 seconds
-    setTimeout(() => {
-    this.isVerified = true
-    }, 5000)
-}
+    // setTimeout(() => {
+    //   this.isVerified = true
+    // }, 5000)
+  }
 }
 </script>
 

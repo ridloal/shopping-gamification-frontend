@@ -72,8 +72,8 @@
 
     <button 
       class="spin-wheel-btn"
-      :class="{ 'active': isVerified && !isSpinning && !hasWon }"
-      :disabled="!isVerified || isSpinning || hasWon"
+      :class="{ 'active': isVerified && !isSpinning && !hasWon && !isClaimed }"
+      :disabled="!isVerified || isSpinning || hasWon || isClaimed"
       @click="handleWheelClick"
     >
       <i :class="buttonIcon"></i>
@@ -94,17 +94,23 @@ export default {
   props: {
     isVerified: {
       type: Boolean,
+      required: true,
+      default: false
+    },
+    isClaimed: {
+      type: Boolean,
+      required: true,
       default: false
     },
     prizes: {
       type: Array,
       default: () => ([
-        { id: 1, label: '$100 Cash Prize', color: '#FF4136', probability: 5 },
-        { id: 2, label: '$50 Gift Card', color: '#2ECC40', probability: 10 },
-        { id: 3, label: '$25 Store Credit', color: '#0074D9', probability: 15 },
-        { id: 4, label: '$10 Discount', color: '#FF851B', probability: 20 },
-        { id: 5, label: '$5 Coupon', color: '#B10DC9', probability: 25 },
-        { id: 6, label: 'Try Again Later', color: '#FFDC00', probability: 25 }
+        { id: 1, label: '200rb Uang Tunai', color: '#FF4136', probability: 0.05 },
+        { id: 2, label: '250rb Gift Card', color: '#2ECC40', probability: 0.05 },
+        { id: 3, label: '125rb Voucher', color: '#0074D9', probability: 0.2 },
+        { id: 4, label: '50% Discount', color: '#FF851B', probability: 0.3 },
+        { id: 5, label: '50rb Voucher', color: '#B10DC9', probability: 0.8 },
+        { id: 6, label: 'Try Again Later', color: '#FFDC00', probability: 0.1 }
       ])
     }
   },
@@ -125,11 +131,11 @@ export default {
   },
   computed: {
     buttonIcon() {
-      if (!this.isVerified) return 'fas fa-lock'
+      if (!this.isVerified || this.isClaimed) return 'fas fa-lock'
       return this.isSpinning ? 'fas fa-spinner fa-spin' : 'fas fa-play'
     },
     buttonText() {
-      if (this.hasWon) return 'Prize Claimed'
+      if (this.hasWon || this.isClaimed) return 'Prize Claimed'
       if (!this.isVerified) return 'Spin Wheel'
       return this.isSpinning ? 'Spinning...' : 'Spin Wheel'
     }

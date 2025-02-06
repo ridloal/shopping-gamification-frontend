@@ -41,6 +41,16 @@ export const claimService = {
   // Update prize for claim
   updatePrize(claimId, prizeId) {
     return apiClient.patch(`/claims/${claimId}/prizes/${prizeId}`)
+  },
+
+  // Get claim by Code
+  getClaimByCode(code) {
+    return apiClient.get(`/claims/code/${code}`)
+  },
+
+  // Claim prize
+  claimPrize(claimCode){
+    return apiClient.get(`/claims/get-prize/${claimCode}`)
   }
 }
 
