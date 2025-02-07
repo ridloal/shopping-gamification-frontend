@@ -94,7 +94,7 @@
       <p>{{ prizeReward.prize.description }}</p>
     </div>
 
-    <div v-if="hasWon" class="winner-notification">
+    <div v-if="hasWon && prizeReward.Code" class="winner-notification">
       <p v-if="prizeReward.Code">Voucher Code: <strong>{{ prizeReward.Code }}</strong></p>
     </div>
   </div>
@@ -165,7 +165,7 @@ export default {
   },
   methods: {
     truncateText(text) {
-      return text.length > 8 ? text.substr(0, 8) + '...' : text
+      return text.length > 12 ? text.substr(0, 11) + '...' : text
     },
     showTooltip(segment, event) {
       if (segment.label.length > 8) {
@@ -218,8 +218,8 @@ export default {
         // Calculate text path
         const midAngle = startAngle + (anglePerSegment / 2)
         const midRad = (midAngle - 90) * Math.PI / 180
-        const textStartX = 50 + 25 * Math.cos(midRad)
-        const textStartY = 50 + 25 * Math.sin(midRad)
+        const textStartX = 50 + 0 * Math.cos(midRad)
+        const textStartY = 50 + 0 * Math.sin(midRad)
         const textEndX = 50 + 40 * Math.cos(midRad)
         const textEndY = 50 + 40 * Math.sin(midRad)
         
@@ -314,8 +314,8 @@ export default {
 }
 
 .wheel-container {
-  width: 300px;
-  height: 300px;
+  width: 350px;
+  height: 350px;
   position: relative;
   display: flex;
   align-items: center;
@@ -323,8 +323,8 @@ export default {
 }
 
 .wheel-inner {
-  width: 280px;
-  height: 280px;
+  width: 330px;
+  height: 330px;
   background: #4b5563;
   border-radius: 50%;
   padding: 0.4rem;
@@ -434,13 +434,13 @@ export default {
 
 @media (max-width: 480px) {
   .wheel-container {
-    width: 250px;
-    height: 250px;
+    width: 350px;
+    height: 350px;
   }
   
   .wheel-inner {
-    width: 230px;
-    height: 230px;
+    width: 330px;
+    height: 330px;
   }
 }
 </style>
