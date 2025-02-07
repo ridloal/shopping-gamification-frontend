@@ -24,7 +24,7 @@
               <span class="original-price" v-if="product.original_price">{{ formatCurrency(product.original_price) }}</span>
               <br>
               <span class="current-price">{{ formatCurrency(product.price) }}</span>
-              <span class="sale-label" v-if="product.original_price">Sale</span>
+              <span class="sale-label" v-if="product.original_price">{{$t('Sale')}}</span>
             </div>
             <div class="product-stats">
               <span><i class="fas fa-star"></i> {{ product.stars }}</span>

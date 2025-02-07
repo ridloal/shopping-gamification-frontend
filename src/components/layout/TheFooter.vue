@@ -15,10 +15,10 @@
     data() {
       return {
         links: [
-          { text: 'About Us', url: '/about-us' },
-          { text: 'Terms', url: '/terms' },
-          { text: 'Privacy', url: '/privacy' },
-          { text: 'Contact', url: '/contact-us' }
+          { text: this.$t('About Us'), url: '/about-us' },
+          { text: this.$t('Terms'), url: '/terms' },
+          { text: this.$t('Privacy'), url: '/privacy' },
+          { text: this.$t('Contact Us'), url: '/contact-us' }
         ]
       }
     },

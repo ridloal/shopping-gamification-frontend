@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="section-title">Available Prizes</h2>
+    <h2 class="section-title"> {{ $t('Available Prizes') }} </h2>
     <div class="carousel-container">
       <div class="carousel" ref="prizeCarousel">
         <!-- Original prizes -->
@@ -22,7 +22,7 @@
       </div>
     </div>
     <button class="claim-btn submit-btn animate-pulse" @click="$router.push('/PrizeClaim')" >
-      Claim Your Prize
+      {{ $t('Claim Your Prize') }}
     </button>
   </div>
 </template>

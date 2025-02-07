@@ -1,9 +1,9 @@
 <template>
     <div class="container">
       <HeroSection />
-      <h2 class="section-title">Top Products</h2>
+      <h2 class="section-title"> {{ $t('Top Products') }} </h2>
       <ProductCarousel :products="topProducts" />
-      <h2 class="section-title">Digital Products</h2>
+      <h2 class="section-title"> {{ $t('Digital Products') }} </h2>
       <ProductCarousel :products="digitalProducts" />
       <BannerSection :socialContents="socialContents" />
       <PrizeSection :prizes="prizes" />

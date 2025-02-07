@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="section-title">Recent Winners</h2>
+    <h2 class="section-title">{{$t('Recent Winners')}}</h2>
     <div class="winners-container">
       <div v-for="winner in winners" :key="winner.id" class="winner-card winner-notification">
         <div class="winner-avatar">
@@ -8,7 +8,7 @@
         </div>
         <div class="winner-info">
           <p><strong>{{ winner.name }}</strong></p>
-          <p>Won {{ winner.prize }}</p>
+          <p>{{$t('Won')}} {{ winner.prize }}</p>
         </div>
         <span class="winner-time">{{ winner.time }}</span>
       </div>
@@ -24,15 +24,15 @@ export default {
       winners: [
         {
           id: 1,
-          name: "John D.",
-          prize: "Movie Tickets",
+          name: "Agung Mahmud",
+          prize: "TWS JBL Earbuds",
           time: "2m ago",
           avatar: "https://storage.ridlo.eu.org/img/67a31b4c4e746_1738742604.webp"
         },
         {
           id: 2,
           name: "Sarah M.",
-          prize: "$50 Voucher",
+          prize: "Voucher Diskon 50%",
           time: "5m ago",
           avatar: "https://storage.ridlo.eu.org/img/67a31b4c4e746_1738742604.webp"
         }
@@ -42,11 +42,11 @@ export default {
   methods: {
     simulateNewWinner() {
       const newWinners = [
-        { name: "Alex K.", prize: "iPhone 13", time: "Just now" },
-        { name: "Maria S.", prize: "$100 Amazon Card", time: "Just now" },
-        { name: "Chris L.", prize: "Smartwatch", time: "1m ago" },
-        { name: "Emily W.", prize: "Wireless Earbuds", time: "6m ago" },
-        { name: "Mike P.", prize: "Movie Tickets", time: "4m ago" },
+        { name: "Dani Sukardan", prize: "Voucher Diskon 80%", time: "Just now" },
+        { name: "Maria Sulasti", prize: "Ebook Digital PLR 2000+", time: "Just now" },
+        { name: "Leni Marsin", prize: "Video Course Cuan Produk Digital", time: "1m ago" },
+        { name: "Wanda", prize: "Wireless Earbuds", time: "6m ago" },
+        { name: "Naila Wati", prize: "Movie Tickets", time: "4m ago" },
         { name: "Linda R.", prize: "$50 Food Voucher", time: "8m ago" },
         { name: "Tom H.", prize: "Gaming Keyboard", time: "7m ago" },
         { name: "Sophie B.", prize: "Bluetooth Speaker", time: "2m ago" },

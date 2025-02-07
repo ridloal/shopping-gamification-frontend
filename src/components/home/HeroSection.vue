@@ -1,12 +1,12 @@
 <template>
   <div class="hero">
-    <h1>{{ title }}</h1>
-    <p>{{ subtitle }}</p>
+    <h1>{{ $t('Win Amazing Prizes') }}</h1>
+    <p>{{ $t('Claim your rewards instantly and spin to win more!') }}</p>
     <div class="claim-input">
       <div class="input-group">
-        <input type="text" :placeholder="placeholder" v-model="claimCode" @input="toUpperCase" @keyup.enter="submitClaim">
+        <input type="text" :placeholder="$t('Enter your claim code')" v-model="claimCode" @input="toUpperCase" @keyup.enter="submitClaim">
         <button class="submit-btn" @click="submitClaim">
-          <i class="fas fa-chevron-right"></i> Check Status
+          <i class="fas fa-chevron-right"></i> {{ $t('Check Status') }}
         </button>
       </div>
     </div>
@@ -18,9 +18,6 @@ export default {
   name: 'HeroSection',
   data() {
     return {
-      title: 'Win Amazing Prizes',
-      subtitle: 'Claim your rewards instantly and spin to win more!',
-      placeholder: 'Enter your claim code',
       claimCode: ''
     }
   },
