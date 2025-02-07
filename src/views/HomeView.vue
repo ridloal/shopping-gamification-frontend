@@ -48,6 +48,6 @@ export default {
   } catch (error) {
     console.error('Error fetching home page data:', error)
   }
-}
+  }
 }
 </script>

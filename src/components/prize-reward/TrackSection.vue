@@ -5,6 +5,7 @@
       <input 
       type="text" 
       v-model="claimCode"
+      @input="toUpperCase"
       placeholder="Enter claim code"
       >
       <button 
@@ -21,16 +22,19 @@
 export default {
   name: 'TrackSection',
   data() {
-  return {
-    claimCode: ''
-  }
+    return {
+      claimCode: ''
+    }
   },
   methods: {
-  trackClaim() {
-    if (!this.claimCode) return
-    // Redirect to the claim status page
-    window.location.href = `/PrizeReward/${this.claimCode}`
-  }
+    trackClaim() {
+      if (!this.claimCode) return
+      // Redirect to the claim status page
+      window.location.href = `/PrizeReward/${this.claimCode}`
+    },
+    toUpperCase(event) {
+      this.claimCode = event.target.value.toUpperCase();
+    }
   }
 }
 </script>

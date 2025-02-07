@@ -4,7 +4,7 @@
     <p>{{ subtitle }}</p>
     <div class="claim-input">
       <div class="input-group">
-        <input type="text" :placeholder="placeholder" v-model="claimCode">
+        <input type="text" :placeholder="placeholder" v-model="claimCode" @input="toUpperCase">
         <button class="submit-btn" @click="submitClaim">
           <i class="fas fa-chevron-right"></i> Check Status
         </button>
@@ -26,7 +26,11 @@ export default {
   },
   methods: {
     submitClaim() {
+      if (!this.claimCode) return
       this.$router.push(`/PrizeReward/${this.claimCode}`)
+    },
+    toUpperCase(event) {
+      this.claimCode = event.target.value.toUpperCase();
     }
   }
 }

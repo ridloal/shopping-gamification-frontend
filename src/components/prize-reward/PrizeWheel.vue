@@ -83,12 +83,26 @@
 
     <div v-if="hasWon" class="winner-notification">
       <i class="fas fa-trophy"></i>
-      <p>Congratulations! You won {{ selectedPrize.label }}!</p>
+      <p>Congratulations! You won {{ prizeReward.prize.name }}!</p>
+    </div>
+
+    <div v-if="hasWon" class="winner-notification">
+      <img :src="prizeReward.prize.image_url" alt="Prize Image" style="width: 200px; height: 200px; border-radius: 50%; text-align: center;">
+    </div>
+
+    <div v-if="hasWon" class="winner-notification">
+      <p>{{ prizeReward.prize.description }}</p>
+    </div>
+
+    <div v-if="hasWon" class="winner-notification">
+      <p v-if="prizeReward.Code">Voucher Code: <strong>{{ prizeReward.Code }}</strong></p>
     </div>
   </div>
 </template>
 
 <script>
+import { claimService } from '@/services/api.js'
+
 export default {
   name: 'PrizeWheel',
   props: {
@@ -112,10 +126,19 @@ export default {
         { id: 5, label: '50rb Voucher', color: '#B10DC9', probability: 0.8 },
         { id: 6, label: 'Try Again Later', color: '#FFDC00', probability: 0.1 }
       ])
+    },
+    claimCode: {
+      type: String,
+      required: true
+    },
+    prizeDetails: {
+      type: String,
+      default: null
     }
   },
   data() {
     return {
+      prizeReward: JSON.parse(this.prizeDetails),
       isSpinning: false,
       wheelSegments: [],
       currentRotation: 0,
@@ -234,22 +257,36 @@ export default {
         this.isSpinning = false
       }
     },
-    determineWinningPrize() {
+    async determineWinningPrize() {
+      try {
+        const response = await claimService.claimPrize(this.claimCode)
+        if (response.data.pg_id != null) {
+          this.$emit('update-verification-status', 'claimed');
+          this.prizeReward = JSON.parse(response.data.detail_json);
+        }
+        const prizeIndex = this.prizes.findIndex(prize => prize.id === response.data.pg_id);
+        return prizeIndex !== -1 ? prizeIndex : 0; // Default to 0 if prize not found
+      } catch (error) {
+        console.error('Error determining winning prize:', error);
+        return 0; // Default to 0 in case of error
+      }
+    },
+    // determineWinningPrize() {
       // Simulated API response - now properly aligned with pointer
-      return new Promise(resolve => {
-        setTimeout(() => {
-          const random = Math.random() * 100
-          let probabilitySum = 0
+      // return new Promise(resolve => {
+      //   setTimeout(() => {
+      //     const random = Math.random() * 100
+      //     let probabilitySum = 0
           
-          const winningIndex = this.prizes.findIndex(prize => {
-            probabilitySum += prize.probability
-            return random <= probabilitySum
-          })
+      //     const winningIndex = this.prizes.findIndex(prize => {
+      //       probabilitySum += prize.probability
+      //       return random <= probabilitySum
+      //     })
           
-          resolve(winningIndex !== -1 ? winningIndex : 0)
-        }, 500)
-      })
-    }
+      //     resolve(winningIndex !== -1 ? winningIndex : 0)
+      //   }, 500)
+      // })
+    // }
   },
   watch: {
     prizes: {
@@ -261,6 +298,9 @@ export default {
   },
   mounted() {
     this.calculateSegments()
+    if (this.isClaimed) {
+      this.hasWon = true
+    }
   }
 }
 </script>
