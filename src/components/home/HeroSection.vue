@@ -4,7 +4,7 @@
     <p>{{ subtitle }}</p>
     <div class="claim-input">
       <div class="input-group">
-        <input type="text" :placeholder="placeholder" v-model="claimCode" @input="toUpperCase">
+        <input type="text" :placeholder="placeholder" v-model="claimCode" @input="toUpperCase" @keyup.enter="submitClaim">
         <button class="submit-btn" @click="submitClaim">
           <i class="fas fa-chevron-right"></i> Check Status
         </button>

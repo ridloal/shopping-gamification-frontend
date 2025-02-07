@@ -4,17 +4,17 @@
             <i class="fas fa-gift"></i>
             <span>HartaKarun</span>
         </a>
-        <div class="header-right">
-        <i class="fas fa-bell"></i>
-        <div class="profile-menu">
-            <div class="avatar" @click="toggleMenu">
-            <img :src="avatarUrl" alt="User Avatar">
+        <div class="header-right" style="display: none;">
+            <i class="fas fa-bell"></i>
+            <div class="profile-menu">
+                <div class="avatar" @click="toggleMenu">
+                <img :src="avatarUrl" alt="User Avatar">
+                </div>
+                <div class="menu-dropdown" :class="{ active: isMenuOpen }">
+                <a href="#" @click="$router.push('/register')"><i class="fas fa-user-plus"></i> Register</a>
+                <a href="#" @click="$router.push('/login')"><i class="fas fa-sign-in-alt"></i> Login</a>
+                </div>
             </div>
-            <div class="menu-dropdown" :class="{ active: isMenuOpen }">
-            <a href="#" @click="$router.push('/register')"><i class="fas fa-user-plus"></i> Register</a>
-            <a href="#" @click="$router.push('/login')"><i class="fas fa-sign-in-alt"></i> Login</a>
-            </div>
-        </div>
         </div>
     </header>
     </template>

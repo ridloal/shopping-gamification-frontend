@@ -6,6 +6,7 @@
       type="text" 
       v-model="claimCode"
       @input="toUpperCase"
+      @keyup.enter="trackClaim"
       placeholder="Enter claim code"
       >
       <button 

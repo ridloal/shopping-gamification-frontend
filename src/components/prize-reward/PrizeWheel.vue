@@ -193,7 +193,7 @@ export default {
       const segmentAngle = 360 / this.prizes.length
       // Adjust rotation so the pointer aligns with the middle of the segment
       const targetAngle = -(segmentAngle * index + segmentAngle / 2)
-      const spins = 5
+      const spins = 25
       const extraSpins = spins * 360
       return extraSpins + targetAngle
     },
