@@ -1,9 +1,9 @@
 <template>
   <footer>
     <div class="footer-links">
-      <a v-for="link in localizedLinks" :key="link.text" :href="link.url">
+      <span v-for="link in localizedLinks" :key="link.text" @click="navigateTo(link.url)" class="footer-link">
         {{ link.text }}
-      </a>
+      </span>
     </div>
     <p>&copy; {{ currentYear }} HartaKarun. All rights reserved.</p>
   </footer>
@@ -32,6 +32,17 @@ export default {
         text: this.$t(link.text)
       }))
     }
+  },
+  methods: {
+    navigateTo(url) {
+      this.$router.push(url)
+    }
   }
 }
 </script>
+
+<style scoped>
+.footer-links span:hover {
+  cursor: pointer;
+}
+</style>

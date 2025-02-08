@@ -51,6 +51,9 @@ export default {
       this.errorMessage = 'Terjadi kesalahan saat mengambil data. Silakan coba lagi nanti.'
     }
   },
+  mounted() {
+    this.checkForOverflow();
+  },
   methods: {
     generateNewUniqueAndContrastColor() {
       // Implementasi fungsi untuk menghasilkan warna unik dan kontras
@@ -60,6 +63,13 @@ export default {
         color += letters[Math.floor(Math.random() * 16)];
       }
       return color;
+    },
+    checkForOverflow() {
+      if (document.documentElement.scrollWidth > window.innerWidth) {
+        document.body.classList.add('lock-scroll');
+      } else {
+        document.body.classList.remove('lock-scroll');
+      }
     }
   }
 }
@@ -75,5 +85,8 @@ export default {
   color: red;
   text-align: center;
   margin-top: 1rem;
+}
+.lock-scroll {
+  overflow-x: hidden;
 }
 </style>

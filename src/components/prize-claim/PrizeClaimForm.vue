@@ -56,6 +56,7 @@
               :type="field.type"
               v-model="formData[field.id]"
               :placeholder="field.placeholder"
+              @input="toLowerCase"
               @blur="validateField(field.id)"
             >
             <span v-if="errors[field.id]" class="error">{{ errors[field.id] }}</span>
@@ -147,6 +148,10 @@ const filteredProducts = computed(() => {
     .filter(product => product.name.toLowerCase().includes(productSearch.value.toLowerCase()))
     .slice(0, 2)
 })
+
+const toLowerCase = (event) => {
+  event.target.value = event.target.value.toLowerCase()
+}
 
 const selectProduct = (product) => {
   selectedProduct.value = product
